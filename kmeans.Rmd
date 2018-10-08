@@ -1,0 +1,107 @@
+---
+title: "Image clustering using kmeans()"
+author: "Rohan Dalmia"
+date: "October 4, 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r message=FALSE, warning=FALSE, echo=FALSE}
+library("jpeg")
+library("imager")
+img = readJPEG("nitaku_image.jpg")
+img2 = load.image("nitaku_image.jpg")
+plot(img2, main='Ping Pong Ball Image')
+```
+
+```{r, eval = FALSE}
+dim(img)
+```
+
+```{r message=FALSE, warning=FALSE}
+img_expand = apply(img, 3, c)
+kmeanfit2 = kmeans(img_expand, 2)
+new_img_expand2 = kmeanfit2$centers[kmeanfit2$cluster, ]
+new_img2 = img
+new_img2[, , 1] = matrix(new_img_expand2[,1], 459, 480)
+new_img2[, , 2] = matrix(new_img_expand2[,2], 459, 480)
+new_img2[, , 3] = matrix(new_img_expand2[,3], 459, 480)
+```
+
+### k = 2
+```{r}
+par(mar=rep(0.2, 4))
+plot(c(0, 459), c(0, 480), xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
+rasterImage(new_img2, 0, 0, 480, 459)
+```
+
+
+### k = 3
+
+```{r, echo=FALSE}
+kmeanfit3 = kmeans(img_expand, 3)
+new_img_expand3 = kmeanfit3$centers[kmeanfit3$cluster, ]
+new_img3 = img
+new_img3[, , 1] = matrix(new_img_expand3[,1], 459, 480)
+new_img3[, , 2] = matrix(new_img_expand3[,2], 459, 480)
+new_img3[, , 3] = matrix(new_img_expand3[,3], 459, 480)
+
+par(mar=rep(0.2, 4))
+plot(c(0, 459), c(0, 480), xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
+rasterImage(new_img3, 0, 0, 480, 459)
+
+```
+
+### k = 5
+
+```{r, echo=FALSE}
+kmeanfit = kmeans(img_expand, 5)
+new_img_expand = kmeanfit$centers[kmeanfit$cluster, ]
+new_img = img
+new_img[, , 1] = matrix(new_img_expand[,1], 459, 480)
+new_img[, , 2] = matrix(new_img_expand[,2], 459, 480)
+new_img[, , 3] = matrix(new_img_expand[,3], 459, 480)
+
+par(mar=rep(0.2, 4))
+plot(c(0, 459), c(0, 480), xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
+rasterImage(new_img, 0, 0, 480, 459)
+
+```
+
+### k = 10
+
+```{r, echo=FALSE}
+kmeanfit10 = kmeans(img_expand, 10)
+new_img_expand10 = kmeanfit10$centers[kmeanfit10$cluster, ]
+new_img10 = img
+new_img10[, , 1] = matrix(new_img_expand10[,1], 459, 480)
+new_img10[, , 2] = matrix(new_img_expand10[,2], 459, 480)
+new_img10[, , 3] = matrix(new_img_expand10[,3], 459, 480)
+
+par(mar=rep(0.2, 4))
+plot(c(0, 459), c(0, 480), xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
+rasterImage(new_img10, 0, 0, 480, 459)
+
+```
+
+###k = 30 
+```{r echo=FALSE, warning=FALSE}
+kmeanfit30 = kmeans(img_expand, 30)
+new_img_expand30 = kmeanfit30$centers[kmeanfit30$cluster, ]
+new_img30 = img
+new_img30[, , 1] = matrix(new_img_expand30[,1], 459, 480)
+new_img30[, , 2] = matrix(new_img_expand30[,2], 459, 480)
+new_img30[, , 3] = matrix(new_img_expand30[,3], 459, 480)
+
+par(mar=rep(0.2, 4))
+plot(c(0, 459), c(0, 480), xaxt = 'n', yaxt = 'n', bty = 'n', pch = '', ylab = '', xlab = '')
+rasterImage(new_img30, 0, 0, 480, 459)
+
+```
+
+For an image with less colors, *k* doesn't need to be too large.  However, if an image is too colorful, in that case, to capture all the colors, we might have to take a bigger *k*.  
